@@ -1,0 +1,15 @@
+HAL_I2C_Mem_Write(&hi2c2, 0xD0, 0x6B, I2C_MEMADD_SIZE_8BIT, 0X00, 1, 0xfff);
+HAL_Delay(100);
+
+HAL_I2C_Mem_Write(&hi2c2, 0xD0, 0x1B, I2C_MEMADD_SIZE_8BIT, 0<<3, 1, 0xfff);
+HAL_Delay(100);
+
+HAL_I2C_Mem_Write(&hi2c2, 0xD0, 0x1C, I2C_MEMADD_SIZE_8BIT, 0<<3, 1, 0xfff);
+HAL_Delay(100);
+
+
+HAL_I2C_Mem_Write(&hi2c2, 0xD0, 0x19, I2C_MEMADD_SIZE_8BIT, 19, 1, 0xfff);
+HAL_Delay(100);
+
+HAL_I2C_Mem_Write(&hi2c2, 0xD0, 0x1A, I2C_MEMADD_SIZE_8BIT, 4, 1, 0xfff);
+HAL_Delay(100);
