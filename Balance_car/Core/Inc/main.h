@@ -65,6 +65,8 @@ void Error_Handler(void);
 #define LED1_GPIO_Port GPIOD
 /* USER CODE BEGIN Private defines */
 
+extern float MotorSpeed1;
+extern float MotorSpeed2;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

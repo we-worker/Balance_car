@@ -22,23 +22,19 @@ Dialog DLL:      TCM.DLL V1.27.0.0
  
 <h2>Project:</h2>
 C:\Users\Arc\Documents\codeProjects\keil\Balance_car\Balance_car\MDK-ARM\Balance_car.uvprojx
-Project File Date:  02/01/2022
+Project File Date:  02/02/2022
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 4 (build 422)', folder: 'C:\works\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Balance_car'
-compiling main.c...
-../Core/Src/main.c(183): warning:  #177-D: variable "stry"  was declared but never referenced
-  		char strx[20],stry[20],strz[20];
-../Core/Src/main.c(183): warning:  #177-D: variable "strz"  was declared but never referenced
-  		char strx[20],stry[20],strz[20];
-../Core/Src/main.c(127): warning:  #550-D: variable "pwmVal"  was set but never used
-  	uint16_t pwmVal=0;
-../Core/Src/main.c: 3 warnings, 0 errors
+compiling PID.c...
+..\User\PID.h(2): warning:  #1-D: last line of file ends without a newline
+  int velocity(int encoder_left,int encoder_right,float velocity_KP,float velocity_KI);
+..\User\PID.c: 1 warning, 0 errors
 linking...
-Program Size: Code=29026 RO-data=5998 RW-data=88 ZI-data=2216  
+Program Size: Code=25662 RO-data=5818 RW-data=108 ZI-data=2212  
 FromELF: creating hex file...
-"Balance_car\Balance_car.axf" - 0 Error(s), 3 Warning(s).
+"Balance_car\Balance_car.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -56,7 +52,7 @@ Package Vendor: ARM
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.0.1
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

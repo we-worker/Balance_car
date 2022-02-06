@@ -28,6 +28,7 @@
 "balance_car\inv_mpu_dmp_motion_driver.o"
 "balance_car\mpu6050.o"
 "balance_car\motor.o"
+"balance_car\pid.o"
 --strict --scatter "Balance_car\Balance_car.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

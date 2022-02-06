@@ -884,6 +884,16 @@
               <FileType>5</FileType>
               <FilePath>..\User\Motor.h</FilePath>
             </File>
+            <File>
+              <FileName>PID.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\PID.c</FilePath>
+            </File>
+            <File>
+              <FileName>PID.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\User\PID.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

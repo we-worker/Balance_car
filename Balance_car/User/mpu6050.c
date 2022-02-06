@@ -48,7 +48,7 @@ mpu_state_t w_mpu_init(void)
 //	HAL_Delay(50);
 	
 	//陀螺量程范围，±2000dps.		0x03
-	w_mpu_set_gyro_fsr(mpu_gyro_fsr_250s);
+	w_mpu_set_gyro_fsr(mpu_gyro_fsr_2000s);
 	
 	//加速度计程范围，±8g.			0x00
 	w_mpu_set_acce_fsr(mpu_acce_fsr_2g);
@@ -151,9 +151,9 @@ mpu_state_t w_mpu_read_all_raw_data(mpu_msg_t *mpu_raw_msg_buff)
 	mpu_raw_msg_buff->mpu_gyro[0]				= (int16_t)(msg_buff[8]<<8	| msg_buff[9]);		//X轴陀螺仪值
 	mpu_raw_msg_buff->mpu_gyro[1]				= (int16_t)(msg_buff[10]<<8 | msg_buff[11]);		//Y轴陀螺仪值
 	mpu_raw_msg_buff->mpu_gyro[2]				= (int16_t)(msg_buff[12]<<8 | msg_buff[13]);		//Z轴陀螺仪值
-	mpu_raw_msg_buff->mpu_gyro[0]=mpu_raw_msg_buff->mpu_gyro[0]/131.0;
-	mpu_raw_msg_buff->mpu_gyro[1]=mpu_raw_msg_buff->mpu_gyro[1]/131.0;
-	mpu_raw_msg_buff->mpu_gyro[2]=mpu_raw_msg_buff->mpu_gyro[2]/131.0;
+	mpu_raw_msg_buff->mpu_gyro[0]=mpu_raw_msg_buff->mpu_gyro[0]/16.4;
+	mpu_raw_msg_buff->mpu_gyro[1]=mpu_raw_msg_buff->mpu_gyro[1]/16.4;
+	mpu_raw_msg_buff->mpu_gyro[2]=mpu_raw_msg_buff->mpu_gyro[2]/16.4;
 	
 	mpu_temperature_biff								= ((uint16_t)msg_buff[6]<<8)	| msg_buff[7];		//MPU温度值
 	

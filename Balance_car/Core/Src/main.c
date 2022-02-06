@@ -26,6 +26,7 @@
 #include "mpu6050.h"
 #include "stdio.h"
 #include "Motor.h"
+#include "PID.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -49,8 +50,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-float MotorSpeed1;
-float MotorSpeed2;
+ float MotorSpeed1;
+ float MotorSpeed2;
 
 /* USER CODE END PV */
 
@@ -123,13 +124,12 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 	HAL_GPIO_WritePin(GPIOA,GPIO_PIN_8,GPIO_PIN_RESET);
 	OLED_ShowStr(24,5,"hello",1);
-	Motor_forward();
-	uint16_t pwmVal=0;
+
 	
-	pwmVal=1800;
-	MotorDriver_SetPWMDuty(1,6000);
-	MotorDriver_SetPWMDuty(2,3600);
-	HAL_Delay(200);
+	float kp=160,kd=40,velocity_KP=100,velocity_KI=0.05;
+	//float kp=160,kd=40,velocity_KP=-100,velocity_KI=-1;
+		
+	int pwm_val=4000;
   while (1)
   {
 
@@ -141,52 +141,44 @@ int main(void)
 		HAL_Delay(1000);
 		
 		*/
-		/*
-		while (pwmVal< 7200)
-	  {
-		  pwmVal++;
-		  //__HAL_TIM_SetCompare(&htim4, TIM_CHANNEL_4, pwmVal);    //修改比较值，修改占空比
-			MotorDriver_SetPWMDuty(1,pwmVal);
-			MotorDriver_SetPWMDuty(2,pwmVal);
-//		  TIM3->CCR1 = pwmVal;    与上方相同
-		  //HAL_Delay(1);
-			//读取电机转动速度
-		char strx[20],stry[20],strz[20];
-		sprintf(strx, "right== %.3f", MotorSpeed1);
-		OLED_ShowStr(24,1,strx,1);
-		sprintf(strx, "left== %.3f", MotorSpeed2);
-		OLED_ShowStr(24,2,strx,1);
-		}
-	  while (pwmVal)
-	  {
-		  pwmVal--;
-		  //__HAL_TIM_SetCompare(&htim4, TIM_CHANNEL_4, pwmVal);    //修改比较值，修改占空比
-			MotorDriver_SetPWMDuty(1,pwmVal);
-			MotorDriver_SetPWMDuty(2,pwmVal);
-//		  TIM3->CCR1 = pwmVal;     与上方相同
-		  //HAL_Delay(1);
-			//读取电机转动速度
-		char strx[20],stry[20],strz[20];
-		sprintf(strx, "right== %.3f", MotorSpeed1);
-		OLED_ShowStr(24,1,strx,1);
-		sprintf(strx, "left== %.3f", MotorSpeed2);
-		OLED_ShowStr(24,2,strx,1);
-	  }
-	  //MotorDriver_SetPWMDuty(1,PWM_DUTY_LIMIT/2);
-	  HAL_Delay(200);
-		*/
-		//OLED_ShowNum(24,6,__HAL_TIM_GET_COUNTER(&htim3),10,12);
-		//OLED_ShowNum(24,6,Get_Motor_Speed(1),10,12);
 		
+		/*
+		MotorDriver_SetPWMDuty(1,pwm_val);
+		MotorDriver_SetPWMDuty(2,pwm_val);
 		
 		//读取电机转动速度
 		char strx[20],stry[20],strz[20];
-		sprintf(strx, "right== %.3f", MotorSpeed2);
+		sprintf(strx, "right== %.3f  ", MotorSpeed2);
 		OLED_ShowStr(24,1,strx,1);
-		sprintf(strx, "left== %.3f", MotorSpeed1);
+		sprintf(strx, "left== %.3f   ", MotorSpeed1);
 		OLED_ShowStr(24,2,strx,1);
+		sprintf(strz, "pwm== %d   ", pwm_val);
+		OLED_ShowStr(24,3,strz,1);
 		
-	/*
+		*/
+		
+		
+		w_mpu_read_all_raw_data(&mpu_raw_msg);
+		read_dmp(&mpu_pose_msg);
+
+		int Balance_Pwm;int target=3000;int velocity_pwm;
+		Balance_Pwm =balance(mpu_pose_msg.pitch,mpu_raw_msg.mpu_gyro[1],kp,kd);
+		velocity_pwm=velocity(MotorSpeed1,MotorSpeed2,velocity_KP,velocity_KI);
+		
+		
+		if(Balance_Pwm>0)
+			target=3000+Balance_Pwm;
+		else 
+			target=-3000+Balance_Pwm;
+		if(velocity_pwm>0)
+			target=target+velocity_pwm;
+		else 
+			target=target+velocity_pwm;
+		
+		MotorDriver_SetPWMDuty(1,-target);
+		MotorDriver_SetPWMDuty(2,-target);
+		
+		/*
 	//读取mpu所有原始数据
 		w_mpu_read_all_raw_data(&mpu_raw_msg);
 		
@@ -207,7 +199,7 @@ int main(void)
 		OLED_ShowStr(24,4,strx,1);
 		OLED_ShowStr(24,5,stry,1);
 		OLED_ShowStr(24,6,strz,1);
-	*/
+		*/
   }
 }
 
@@ -276,7 +268,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	HAL_GPIO_TogglePin(LED1_GPIO_Port,LED1_Pin);
+	//HAL_GPIO_TogglePin(LED1_GPIO_Port,LED1_Pin);
 	if (htim == (&htim5))
     {
         //1.获取电机速度
@@ -288,7 +280,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 				{
 					MotorSpeed1-=65536;
 				}
-				MotorSpeed1=MotorSpeed1/10.0;
+				MotorSpeed1=MotorSpeed1/10.0*100;
 				//2.获取电机速度
         MotorSpeed2 = (float)(__HAL_TIM_GET_COUNTER(&htim2));   
         // TIM4计数器获得电机脉冲，该电机在10ms采样的脉冲/18则为实际转速的rpm
@@ -298,7 +290,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 				{
 					MotorSpeed2-=65536;
 				}
-				MotorSpeed2=MotorSpeed2/10.0;
+				MotorSpeed2=MotorSpeed2/10.0*100;
         
     }
 }

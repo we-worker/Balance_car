@@ -39,3 +39,4 @@ balance_car\main.o: ..\User\inv_mpu.h
 balance_car\main.o: ..\User\inv_mpu_dmp_motion_driver.h
 balance_car\main.o: C:\works\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 balance_car\main.o: ..\User\Motor.h
+balance_car\main.o: ..\User\PID.h
