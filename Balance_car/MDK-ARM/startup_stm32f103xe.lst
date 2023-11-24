@@ -556,12 +556,13 @@ ARM Macro Assembler    Page 9
               00000400 
               00000200 
               00000000 
-Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
-ork --depend=balance_car\startup_stm32f103xe.d -obalance_car\startup_stm32f103x
-e.o -I.\RTE\_Balance_car -IC:\works\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Incl
-ude -IC:\works\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include --prede
-fine="__UVISION_VERSION SETA 523" --predefine="_RTE_ SETA 1" --predefine="STM32
-F10X_HD SETA 1" --list=startup_stm32f103xe.lst startup_stm32f103xe.s
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --depend=bala
+nce_car\startup_stm32f103xe.d -obalance_car\startup_stm32f103xe.o -I.\RTE\_Bala
+nce_car -IC:\Works\keilv537\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include -IC:\W
+orks\keilv537\ARM\Packs\Keil\STM32F1xx_DFP\2.4.0\Device\Include --predefine="__
+UVISION_VERSION SETA 537" --predefine="_RTE_ SETA 1" --predefine="STM32F10X_HD 
+SETA 1" --predefine="_RTE_ SETA 1" --list=startup_stm32f103xe.lst startup_stm32
+f103xe.s
 
 
 
